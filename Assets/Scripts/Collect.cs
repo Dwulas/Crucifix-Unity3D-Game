@@ -1,21 +1,37 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class Collect : MonoBehaviour
 {
-    private void Update()
+    public Text countText;
+    public Text goBack;
+    private int count;
+    public Animator door;
+
+    private void Start()
     {
-        transform.Rotate(0, 0, 90 * Time.deltaTime);
+        count = 0;
+        SetCountText();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.name == "Player")
+        if(other.gameObject.CompareTag("Collect"))
         {
-            other.GetComponent<Points>().points++;
+            other.gameObject.SetActive(false);
+            count = count + 1;
+            SetCountText();
+        }
+    }
 
-            Destroy(this.gameObject);
+    void SetCountText()
+    {
+        countText.text = "Items: " + count.ToString() + "/3";
+        if(count >= 3)
+        {
+            door.SetBool("Open", true);
+            goBack.gameObject.SetActive(true);
         }
     }
 }

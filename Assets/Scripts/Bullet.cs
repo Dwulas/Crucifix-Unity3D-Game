@@ -18,6 +18,5 @@ public class Bullet : MonoBehaviour
     {
         Instantiate(deathParticles, transform.position, Quaternion.identity);
         Player.SetActive(false);
-        // Destroy(gameObject);
     }
 }
