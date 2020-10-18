@@ -6,7 +6,7 @@ public class Hide : MonoBehaviour
 {
     public GameObject Player;
     private bool triggerEntered = false;
-    private bool alreadyEntered = false;
+    public bool alreadyEntered = false;
 
     private void Update()
     {

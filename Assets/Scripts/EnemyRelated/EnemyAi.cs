@@ -13,7 +13,7 @@ public class EnemyAi : MonoBehaviour
     bool alreadyAttacked;
     public GameObject projectile;
 
-    public float sightRange, attackRange;
+    public float attackRange;
     public bool playerInSightRange, playerInAttackRange;
 
     public float AIMoveSpeed;
@@ -21,6 +21,7 @@ public class EnemyAi : MonoBehaviour
     public int desPoint = 0;
     public float visionRange;
     public float visionConeAngle;
+    public float attackRange1 = 4f;
     public Light myLight;
 
     private void Awake()
@@ -34,23 +35,25 @@ public class EnemyAi : MonoBehaviour
     {
         if (References.thePlayer != null)
         {
+            playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, Player);
             Vector3 playerPosition = References.thePlayer.transform.position;
             Vector3 vectorToPlayer = playerPosition - transform.position;
+
+            Patroling();
+
             //Check for sight and attack range
-            if (Vector3.Distance(transform.position, playerPosition) <= visionRange)
+            if (Vector3.Distance(transform.position, playerPosition) <= visionRange && playerInAttackRange)
             {
-                if(Vector3.Angle(transform.forward, vectorToPlayer) <= visionConeAngle)
+                if(Vector3.Angle(transform.forward, vectorToPlayer) <= visionConeAngle && Vector3.Distance(transform.position, playerPosition) > attackRange1)
                 {
                     ChasePlayer();
-                    myLight.color = Color.red;
+                }
+                if (Vector3.Angle(transform.forward, vectorToPlayer) <= visionConeAngle && Vector3.Distance(transform.position, playerPosition) < attackRange1)
+                {
+                    AttackPlayer();
                 }
             }
         }
-        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, Player);
-        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, Player);
-
-        if (!playerInSightRange && !playerInAttackRange) Patroling();
-        if (playerInAttackRange && playerInSightRange) AttackPlayer();
     }
 
     private void Patroling()
@@ -112,7 +115,5 @@ public class EnemyAi : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, sightRange);
     }
 }

@@ -8,6 +8,9 @@ public class Collect : MonoBehaviour
     public Text goBack;
     private int count;
     public Animator door;
+    public AudioSource CoinPickUp;
+    public Camera cam;
+    public Text camSize;
 
     private void Start()
     {
@@ -15,11 +18,18 @@ public class Collect : MonoBehaviour
         SetCountText();
     }
 
+    private void Update()
+    {
+        camSize.text = "Field of View:" + cam.orthographicSize.ToString();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("Collect"))
         {
-            other.gameObject.SetActive(false);
+            CoinPickUp.Play();
+            cam.orthographicSize += 1;
+            Destroy(other.gameObject);
             count = count + 1;
             SetCountText();
         }

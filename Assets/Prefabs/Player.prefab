@@ -1419,7 +1419,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8878730392996517308
 Transform:
   m_ObjectHideFlags: 0
@@ -1557,6 +1557,8 @@ MonoBehaviour:
   countText: {fileID: 0}
   goBack: {fileID: 0}
   door: {fileID: 0}
+  CoinPickUp: {fileID: 0}
+  cam: {fileID: 0}
 --- !u!1 &8878730393072007706
 GameObject:
   m_ObjectHideFlags: 0
