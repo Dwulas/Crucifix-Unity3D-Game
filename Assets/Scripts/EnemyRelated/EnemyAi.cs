@@ -19,9 +19,9 @@ public class EnemyAi : MonoBehaviour
     public float AIMoveSpeed;
     public Transform[] navPoint;
     public int desPoint = 0;
-    public float visionRange;
+    public float visionRangeCone;
     public float visionConeAngle;
-    public float attackRange1 = 4f;
+    public float attackRangeSphere = 4f;
     public Light myLight;
 
     private void Awake()
@@ -42,13 +42,13 @@ public class EnemyAi : MonoBehaviour
             Patroling();
 
             //Check for sight and attack range
-            if (Vector3.Distance(transform.position, playerPosition) <= visionRange && playerInAttackRange)
+            if (Vector3.Distance(transform.position, playerPosition) <= visionRangeCone && playerInAttackRange)
             {
-                if(Vector3.Angle(transform.forward, vectorToPlayer) <= visionConeAngle && Vector3.Distance(transform.position, playerPosition) > attackRange1)
+                if(Vector3.Angle(transform.forward, vectorToPlayer) <= visionConeAngle && Vector3.Distance(transform.position, playerPosition) > attackRangeSphere)
                 {
                     ChasePlayer();
                 }
-                if (Vector3.Angle(transform.forward, vectorToPlayer) <= visionConeAngle && Vector3.Distance(transform.position, playerPosition) < attackRange1)
+                if (Vector3.Angle(transform.forward, vectorToPlayer) <= visionConeAngle && Vector3.Distance(transform.position, playerPosition) < attackRangeSphere)
                 {
                     AttackPlayer();
                 }

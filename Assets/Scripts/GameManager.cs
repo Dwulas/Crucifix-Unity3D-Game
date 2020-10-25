@@ -8,12 +8,17 @@ public class GameManager : MonoBehaviour
     bool gameHasEnded = false;
     public GameObject Player;
     public Text HowToMove;
+    public CameraShake cameraShake;
 
     private void Update()
     {
         if (Input.anyKey)
         {
             HowToMove.gameObject.SetActive(false);
+        }
+        if(gameHasEnded == true)
+        {
+            StartCoroutine(cameraShake.Shake(.8f, .08f));
         }
     }
 

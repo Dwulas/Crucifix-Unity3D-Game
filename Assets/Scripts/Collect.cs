@@ -11,6 +11,8 @@ public class Collect : MonoBehaviour
     public AudioSource CoinPickUp;
     public Camera cam;
     public Text camSize;
+    private bool triggered = false;
+    private float camSizeUpgrade;
 
     private void Start()
     {
@@ -20,7 +22,16 @@ public class Collect : MonoBehaviour
 
     private void Update()
     {
-        camSize.text = "Field of View:" + cam.orthographicSize.ToString();
+        camSize.text = "Field of View: " + cam.orthographicSize.ToString("F0");
+        if(triggered)
+        {
+            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, camSizeUpgrade, Time.deltaTime * 2);
+
+            if (cam.orthographicSize > camSizeUpgrade)
+            {
+                triggered = false;
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -28,7 +39,8 @@ public class Collect : MonoBehaviour
         if(other.gameObject.CompareTag("Collect"))
         {
             CoinPickUp.Play();
-            cam.orthographicSize += 1;
+            triggered = true;
+            camSizeUpgrade = cam.orthographicSize + 1;
             Destroy(other.gameObject);
             count = count + 1;
             SetCountText();
